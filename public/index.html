@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/0.4.0/weui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/router.css" />
+		<title>9797找到啦</title>
+	</head>
+
+	<body ontouchstart>
+		<!--begin toast-->
+		<div id="toast" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<i class="weui_icon_msg weui_icon_warn"></i>
+				<p class="weui_toast_content">已完成</p>
+			</div>
+		</div>
+		<!--end toast-->
+		<!--begin toast-->
+		<div id="toast2" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<i class="weui_icon_toast"></i>
+				<p class="weui_toast_content">已完成</p>
+			</div>
+		</div>
+		<!--end toast-->
+		<!-- loading toast -->
+		<div id="loadingToast" class="weui_loading_toast" style="display:none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">数据加载中</p>
+			</div>
+		</div>
+		<!-- loading toast -->
+		
+		<!--BEGIN dialog1-->
+		<div class="weui_dialog_confirm" id="dialog1" style="display: none;">
+			<div class="weui_mask"></div>
+			<div class="weui_dialog">
+				<div class="weui_dialog_hd"><strong class="weui_dialog_title">弹窗标题</strong></div>
+				<div class="weui_dialog_bd">自定义弹窗内容，居左对齐显示，告知需要确认的信息等</div>
+				<div class="weui_dialog_ft">
+					<a href="javascript:;" class="weui_btn_dialog default">取消</a>
+					<a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+				</div>
+			</div>
+		</div>
+		<!--END dialog1-->
+		
+		<div class="container js_container">
+
+		</div>
+		<script type="text/html" id="tpl_home">
+			<div class="page content-padded home">
+				<header>
+					<img src="img/banner.jpg" width="100%" />
+				</header>
+				<div class="bd">
+					<div class="weui-row">
+						<div class="weui-col-50 js_grid" data-id="lose" id="lose">
+							<p>寻物登记</p>
+							<img src="img/1.png" width="50%" />
+						</div>
+						<div class="weui-col-50 js_grid" data-id="driver" id="driver">
+							<p>文明的士登记</p>
+							<img src="img/2.png" width="50%" />
+						</div>
+					</div>
+					<div class="weui-row">
+						<div class="weui-col-50 js_grid" data-id="inquiry" id="inquiry">
+							<p>积分查询</p>
+							<img src="img/3.png" width="50%" />
+						</div>
+						<a href="http://www.xinlantech.com/" class="weui-col-50 js_grid" id="tech-support">
+							<p>技术支持</p>
+							<img src="img/4.png" width="50%" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/html" id="tpl_lose">
+			<div class="page lose">
+				<header>寻物登记
+					<p>请按照本表格，填写您的相关遗失信息</p>
+				</header>
+
+				<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="lostername" class="weui_input" type="text" maxlength="4" placeholder="请输入您的姓名">
+						</div>
+					</div>
+					<div class="weui_cell weui_cell_select">
+						<div class="weui_cell_bd weui_cell_primary">
+							<select id="lostersex" class="weui_select">
+								<option selected="" value="0">选择性别</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+							</select>
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">电话</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="losterphone" class="weui_input" type="tel" maxlength="11" placeholder="请输入您的联系方式">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label for="" class="weui_label">时间</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="losttime" class="weui_input" type="datetime-local" value="" placeholder="">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">上车地点</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="departure" class="weui_input" type="text" placeholder="请输入您的上车地点">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">下车地点</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="destination" class="weui_input" type="text" placeholder="请输入您的下车地点">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">乘车人数</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="num" class="weui_input" type="text" placeholder="请输入乘车人数">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">遗失位置</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="lostlocation" class="weui_input" type="text" placeholder="例如前座、后座、后备箱等">
+						</div>
+					</div>
+				</div>
+				<div class="weui_cells_title">遗失物品描述</div>
+				<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary">
+							<textarea id="lostdescription" class="weui_textarea" placeholder="请详细描绘拾遗物品特征、颜色、证件、姓名等..." rows="4" maxlength="200"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="weui-row content-padded">
+					<div class="weui-col-50">
+						<a href="javascript:" class="weui_btn weui_btn_default" id="lose_back">返回</a>
+					</div>
+					<div class="weui-col-50">
+						<a href="javascript:" class="weui_btn weui_btn_primary" id="lose_submit">提交</a>
+					</div>
+				</div>
+			</div>
+		</script>
+		
+		<script type="text/html" id="tpl_driver">
+			<div class="page driver">
+				<header>文明的士登记
+					<p>请的哥的姐按照本表格，填写您的相关信息。您的每一件文明行为，我们都将予以相应积分奖励，凭积分换取礼品，您的积分还将作为”文明的的士之星“评选的重要依据。（您的从业资格证号码就是您的登记查询号码）</p>
+				</header>
+				<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="drivername" class="weui_input" type="text" maxlength="3" placeholder="请输入您的姓名">
+						</div>
+					</div>
+					<div class="weui_cell weui_cell_select">
+						<div class="weui_cell_bd weui_cell_primary">
+							<select id="driversex" class="weui_select">
+								<option selected="" value="0">选择性别</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+							</select>
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">电话</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="driverphone" class="weui_input" type="tel" maxlength="11" placeholder="请输入您的联系方式">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">从业资格证号码</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="driverqcno" class="weui_input" type="text" placeholder="请输入您的从业资格证号码">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">所在公司</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="drivercompany" class="weui_input" type="text" placeholder="请输入您的所在公司">
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">车牌号</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input id="drivercarno" class="weui_input" type="text" maxlength="7" placeholder="请输入您的车牌号">
+						</div>
+					</div>
+				</div>
+				<div class="weui_cells_title">备注</div>
+				<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary">
+							<textarea id="remark" class="weui_textarea" rows="4" maxlength="200"></textarea>
+						</div>
+					</div>
+				</div>
+				<a href="javascript:" id="rules">查看积分规则</a>
+				<div class="weui-row content-padded">
+					<div class="weui-col-50">
+						<a href="javascript:" class="weui_btn weui_btn_default" id="driver_back">返回</a>
+					</div>
+					<div class="weui-col-50">
+						<a href="javascript:" class="weui_btn weui_btn_primary" id="driver_submit">提交</a>
+					</div>
+				</div>
+			</div>
+		</script>
+		
+		<script type="text/html" id="tpl_inquiry">
+			<div class="page">
+				<div class="weui_search_bar" id="search_bar">
+					<form class="weui_search_outer">
+						<div class="weui_search_inner">
+							<i class="weui_icon_search"></i>
+							<input type="search" class="weui_search_input" id="search_input" placeholder="请输入您的从业资格证号搜索" required/>
+							<a href="javascript:" class="weui_icon_clear" id="search_clear"></a>
+						</div>
+						<label for="search_input" class="weui_search_text" id="search_text">
+							<i class="weui_icon_search"></i>
+							<span>搜索</span>
+						</label>
+					</form>
+					<a href="javascript:" class="weui_search_cancel" id="search_processed">搜索</a>
+				</div>
+				<div class="bd inquiry-bd" id="search_show">
+					<div class="content-padded">
+						<a hrel="javascript:" class="weui_btn weui_btn_primary weui_btn_sm" id="exchange-btn">积分兑换</a>
+					</div>
+					<div class="weui_panel">
+						<div class="weui_panel_hd">文明行为记录 (您有 <span id="totalscore">0</span> 积分)</div>
+						<div class="weui_panel_bd" id="recordList">
+							<!--
+							<div class="weui_media_box weui_media_text">
+								<p class="weui_media_desc">拾得钱包一只。</p>
+								<ul class="weui_media_info">
+									<li class="weui_media_info_meta">+ 50分</li>
+									<li class="weui_media_info_meta">2016-01-01</li>
+								</ul>
+							</div>
+							<div class="weui_media_box weui_media_text">
+								<p class="weui_media_desc">拾得钱包一只。</p>
+								<ul class="weui_media_info">
+									<li class="weui_media_info_meta">+ 50分</li>
+									<li class="weui_media_info_meta">2016-01-01</li>
+								</ul>
+							</div>
+							-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/html" id="tpl_msg">
+			<div class="page">
+				<div class="weui_msg">
+					<div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+					<div class="weui_text_area">
+						<h2 class="weui_msg_title">提交成功</h2>
+						<p class="weui_msg_desc">感谢您的支持反馈,97有你更美好</p>
+					</div>
+					<div class="weui_opr_area">
+						<p class="weui_btn_area">
+							<a href="javascript:;" class="weui_btn weui_btn_primary" id="msg_sure">确定</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/html" id="tpl_rules">
+			<div class="page">
+				<div class="weui_panel weui_panel_access">
+					<div class="weui_panel_hd">文明的士积分规则</div>
+					<div class="weui_panel_bd">
+						<div class="weui_media_box weui_media_text">
+							<p class="weui_media_desc">1.好人好事 帮助乘客找到失物，根据轻重缓急酌情积分，5-50分/次</p>
+						</div>
+						<div class="weui_media_box weui_media_text">
+							<p class="weui_media_desc">2.参与电台活动 参与交通97组织的各类公益活动，50分起</p>
+						</div>
+					</div>
+					<tr>
+				</div>
+				<div class="weui_panel weui_panel_access">
+					<div class="weui_panel_hd">文明的士积分礼遇</div>
+					<div class="weui_panel_bd">
+						<div class="weui_media_box weui_media_text">
+							<p class="weui_media_desc">1.的哥的姐按照分值高低、阶梯兑现交通97纪念品、加油卡等。</p>
+						</div>
+						<div class="weui_media_box weui_media_text">
+							<p class="weui_media_desc">2.积分兑换奖品后不清零，可以累计阶梯兑换、享受积分礼遇，但有效期为一年。</p>
+						</div>
+						<div class="weui_media_box weui_media_text">
+							<p class="weui_media_desc">3.交通97对本规则拥有最终诠释权。</p>
+						</div>
+					</div>
+					<tr>
+				</div>
+				<div class="content-padded">
+					<a href="javascript:" class="weui_btn weui_btn_default" id="rules_back">返回</a>
+				</div>
+			</div>
+		</script>
+		
+		<script type="text/html" id="tpl_exchange">
+			<div class="page exchange-page" id="goods-page">
+				<ul id="goods-list">
+					<!--
+					<li>
+						<img src="//gw3.alicdn.com/bao/uploaded/i4/TB1xK_HMXXXXXaKXFXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg" width="100%" />
+						<h5>商品名称商品名称商品名称商品名称商品名称商品名称</h5>
+						<span class="price">500 <small>积分</small></span>
+						<span class="num">剩余 500 件</span>
+					</li>
+					<li>
+						<img src="//gw3.alicdn.com/bao/uploaded/i4/TB1xK_HMXXXXXaKXFXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg" width="100%" />
+						<h5>商品名称商品名称商品名称商品名称商品名称商品名称</h5>
+						<span class="price">500 <small>积分</small></span>
+						<span class="num">剩余 500 件</span>
+					</li>
+					<li>
+						<img src="//gw3.alicdn.com/bao/uploaded/i4/TB1xK_HMXXXXXaKXFXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg" width="100%" />
+						<h5>商品名称商品名称商品名称商品名称商品名称商品名称</h5>
+						<span class="price">500 <small>积分</small></span>
+						<span class="num">剩余 500 件</span>
+					</li>
+					-->
+				</ul>
+			</div>
+		</script>
+		
+	</body>
+
+</html>
+<script src="//cdn.bootcss.com/zepto/1.1.6/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/router.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/wechatapi.js" type="text/javascript" charset="utf-8"></script>
