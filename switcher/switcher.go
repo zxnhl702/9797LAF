@@ -14,9 +14,9 @@ func Dispatch(db *sql.DB) Xl {
 		// 获取文明行为记录
 		"getGoodRecordData": func(r *http.Request) (string ,interface{}) {
 			// 检索sql
-			selectSql1 := "select sum(g.score) from goodRecord g, civilizedTexi c where g.texiId = c.id and c.qcno = ?"
+			selectSql1 := "select sum(g.score) from goodRecord g, civilizedTexi c where c.isDelete = 0 and g.texiId = c.id and c.qcno = ?"
 			selectSql2 := "select g.id, g.name, strftime('%Y-%m-%d %H:%M:%S', g.happenedTime), g.score" + 
-						" from goodRecord g, civilizedTexi c where g.texiId = c.id and c.qcno = ?" + 
+						" from goodRecord g, civilizedTexi c where c.isDelete = 0 and g.texiId = c.id and c.qcno = ?" + 
 						" order by g.happenedTime desc"
 			// 从业资格证号码
 			qcno := GetParameter(r, "qcno")
@@ -43,11 +43,14 @@ func Dispatch(db *sql.DB) Xl {
 		// 获取的士司机信息
 		"getDriverInfo": func(r *http.Request) (string, interface{}) {
 			// 检索sql
-			selectSql := "select id, name, phone, carno, qcno from civilizedTexi where qcno = ?"
+			selectSql := "select id, name, phone, carno, qcno from civilizedTexi where c.isDelete = 0 and qcno = ?"
 			// 从业资格证号码
 			qcno := GetParameter(r, "qcno")
 			var d driverInfo
 			err := db.QueryRow(selectSql, qcno).Scan(&d.Id, &d.Name, &d.Phone, &d.Carno, &d.Qcno)
+			if err == sql.ErrNoRows {
+				panic("没有此用户信息")
+			}
 			perror(err, "获取的士司机信息失败")
 			return "获取的士司机信息成功", d
 		},
